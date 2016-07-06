@@ -10,6 +10,8 @@ def tab_search_view(request):
     content = requests.get(search_url).text
     souper = BeautifulSoup(content, 'html.parser')
     results = str(souper.find(class_='tabslist'))  # need for loop to get all results
+
+
     # results = str(souper.find(id='song'))
     # souper.find_all('a', class_='title')
     # for link in links:
@@ -24,4 +26,6 @@ def tab_detail_view(request, url):
     content = requests.get(song_url).text  # grabs a string of html-y text
     souper = BeautifulSoup(content, "html.parser")
     results = str(souper.find(class_='tabcont'))
+    if results == 'None':
+        results = str(souper.find_all(class_='tabslist')[1])
     return render(request, 'detail.html', {'results': results})
